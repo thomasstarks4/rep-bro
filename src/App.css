@@ -1,38 +1,34 @@
-.App {
-  text-align: center;
+body {
+  background-color: #e8e7e7;
+  font-family: "Noto Sans";
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.flex {
   display: flex;
-  flex-direction: column;
+}
+/*Containers */
+.center-container {
+  display: block;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+}
+/*Sizing/Visibility*/
+
+.shrink {
+  transform: scale(1, 0.75);
 }
 
-.App-link {
-  color: #61dafb;
+.gone {
+  display: none;
+}
+/* Fonts */
+
+@font-face {
+  font-family: "Noto Sans";
+  src: url("./fonts/static/NotoSans-Bold.ttf");
+  font-weight: bold;
+  font-style: normal;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.col {
+  flex: 1;
 }
