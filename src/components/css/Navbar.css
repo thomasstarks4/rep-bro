@@ -1,0 +1,146 @@
+.nav-container {
+  transition: ease 500ms;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  background-color: #113046;
+  flex-grow: 1;
+  max-height: 200px;
+  align-content: center;
+}
+
+#navImage {
+  border-radius: 45%;
+  max-height: 150px;
+  flex-shrink: 1;
+  transition: ease 800ms;
+}
+
+.nav-resizer {
+  display: flex;
+  align-self: flex-end;
+  justify-content: center;
+}
+
+.right {
+  float: right;
+}
+.flexbox-container {
+  transition: ease 500ms;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  background-color: #948c7f8e;
+  border-radius: 5%;
+  padding: 1%;
+}
+.flexbox-container2 {
+  flex-direction: row;
+}
+.flexbox-item {
+  width: 100%;
+  margin: 10px;
+}
+
+.flexbox-item-1 {
+  text-align: center;
+}
+
+.flexbox-item-2 {
+  text-align: center;
+}
+.flexbox-item-3 {
+  text-align: center;
+}
+
+.image-container {
+  display: flex;
+  transition: ease 500ms;
+  align-self: center;
+  justify-content: flex-end;
+}
+
+a {
+  text-decoration: none;
+  color: #333;
+}
+
+.link {
+  transition: ease 500ms;
+  opacity: 1;
+}
+.link:hover {
+  transform: scale(1.05);
+}
+
+.hidden {
+  opacity: 0;
+  transform: translateX(-300px);
+  transition: ease 1000ms;
+}
+
+.hidden2 {
+  opacity: 0;
+  transform: translateY(-300px);
+  transition: ease 1000ms;
+}
+
+.height-sm {
+  max-height: 50px;
+}
+.btn-ts-1 {
+  background-color: #fbeee0;
+  border: 2px solid #422800;
+  border-radius: 30px;
+  box-shadow: #422800 4px 4px 0 0;
+  color: #422800;
+  cursor: pointer;
+  display: inline-block;
+  font-weight: 600;
+  line-height: 24px;
+  text-align: center;
+  text-decoration: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  transition: 500ms ease;
+  align-self: center;
+}
+
+.btn-ts-1:hover {
+  background-color: #113046;
+  color: rgb(195, 154, 99);
+}
+
+.btn-ts-1:active {
+  box-shadow: #422800 2px 2px 0 0;
+  transform: translate(2px, 2px);
+}
+
+.navbar-toggle-btn {
+  transform: scale(0.7);
+}
+@media (min-width: 768px) {
+  .btn-ts-1 {
+    min-width: 120px;
+    padding: 0 25px;
+  }
+}
+
+.logo-brand {
+  margin-top: 2%;
+  border-radius: 15%;
+  color: white;
+  margin: auto;
+}
+
+.logo-brand:hover {
+  transform: scale(1.1);
+}
+
+.mini-logo {
+  align-self: center;
+  justify-self: center;
+  max-height: 150px;
+}
