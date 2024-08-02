@@ -3,12 +3,14 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  background-color: #113046;
+  background-color: #011728;
   flex-grow: 1;
-  max-height: 200px;
+  max-height: 150px;
   align-content: center;
 }
-
+.nav-container:hover {
+  background-color: #205781;
+}
 #navImage {
   border-radius: 45%;
   max-height: 150px;
@@ -31,9 +33,11 @@
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
-  background-color: #948c7f8e;
-  border-radius: 5%;
-  padding: 1%;
+  background-color: #001e34;
+  padding-right: 2%;
+}
+.flexbox-container:hover {
+  background-color: #003a67;
 }
 .flexbox-container2 {
   flex-direction: row;

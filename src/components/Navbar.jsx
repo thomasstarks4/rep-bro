@@ -3,7 +3,7 @@ import "./css/Navbar.css";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 function Navbar() {
-  const [linksOpen, setLinksOpen] = useState(true);
+  const [linksOpen, setLinksOpen] = useState(false);
 
   const toggleLinks = () => {
     setLinksOpen(!linksOpen);
@@ -25,12 +25,18 @@ function Navbar() {
               Portfolio Page!
             </button>
             <button className="flexbox-item flexbox-item-2 link btn-ts-1">
-              Login/Sign
+              Login/Sign Up
             </button>
-            <button className="flexbox-item flexbox-item-3 link btn-ts-1">
+            <button
+              onClick={() => {
+                window.location.href = "/tracker";
+              }}
+              className="flexbox-item flexbox-item-3 link btn-ts-1"
+            >
               Log A Workout!
             </button>
           </div>
+          <div className="nav-body"></div>
         </div>
         {/* column 2 */}
         <div style={{ color: "white" }} className={`nav-resizer bottom col`}>

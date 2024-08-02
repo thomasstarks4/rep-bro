@@ -1,10 +1,21 @@
+.app-container {
+  height: fit-content;
+}
+
 body {
-  background-color: #e8e7e7;
+  background-color: #011728;
   font-family: "Noto Sans";
 }
 
 .flex {
   display: flex;
+}
+
+.j-center {
+  justify-content: center;
+}
+.j-space {
+  justify-content: space-between;
 }
 /*Containers */
 .center-container {
@@ -29,6 +40,9 @@ body {
   font-style: normal;
 }
 
+.t-center {
+  text-align: center;
+}
 .col {
   flex: 1;
 }
