@@ -1,5 +1,11 @@
 .app-container {
-  height: fit-content;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex: auto;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.2rem;
 }
 
 body {

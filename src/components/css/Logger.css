@@ -8,8 +8,92 @@
   color: white;
   width: 80%;
   margin: auto;
+  border-radius: 30px;
+  text-align: center;
 }
 
 .inputs-container {
   display: flex;
+  background-color: #008cba;
+  margin-bottom: 5%;
+}
+.input-1 {
+  width: 90%;
+  margin-bottom: 4%;
+}
+@media (max-width: 720px) {
+  .inputs-container {
+    flex-direction: column;
+  }
+}
+@media (min-width: 721px) {
+  .inputs-container {
+    flex-direction: row;
+  }
+}
+
+.btn-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.set-btns {
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-radius: 5px;
+}
+
+/* New Set Button */
+.btn-new-set {
+  background-color: #4caf50; /* Green */
+  color: white;
+}
+
+.btn-new-set:hover {
+  background-color: #45a049;
+}
+
+/* Duplicate Set Button */
+.btn-dupe-set {
+  background-color: #008cba; /* Blue */
+  color: white;
+}
+
+.btn-dupe-set:hover {
+  background-color: #007bb5;
+}
+
+/* Additional Button Styles */
+
+/* Delete Set Button */
+.btn-delete-set {
+  background-color: #f44336; /* Red */
+  color: white;
+}
+
+.btn-delete-set:hover {
+  background-color: #da190b;
+}
+
+/* Save Set Button */
+.btn-save-set {
+  background-color: #ff9800; /* Orange */
+  color: white;
+}
+
+.btn-save-set:hover {
+  background-color: #e68900;
+}
+
+/* Reset Set Button */
+.btn-reset-set {
+  background-color: #9c27b0; /* Purple */
+  color: white;
+}
+
+.btn-reset-set:hover {
+  background-color: #7b1fa2;
 }

@@ -7,8 +7,8 @@ import Logger from "./components/Logger";
 function App() {
   return (
     <>
+      <Navbar />
       <div className="app-container">
-        <Navbar />
         <Routes>
           <Route path="/" element={<Home />}></Route>
           <Route path="/tracker" element={<Logger />}></Route>
