@@ -1,4 +1,4 @@
-import appLogo from "../images/rep-bro-logo.jpg";
+import appLogo from "../images/rep-bro-logo-2.jfif";
 import headerImg1 from "../images/karsten-winegeart-0Wra5YYVQJE-unsplash.jpg";
 import headerImg2 from "../images/surface-mtnOWv6EGNs-unsplash.jpg";
 import { Link } from "react-router-dom";
@@ -59,8 +59,9 @@ function Home() {
               </div>
               <ul>
                 <li>
-                  <strong>Printable Workout Plans:</strong> Design your workout
-                  schedule and print it out to bring to the gym.
+                  <strong>Downloadable Workout Plans:</strong> Hassle free
+                  download of each workout in text format to your device (User
+                  profiles to come in future updates)
                 </li>
                 <li>
                   <strong>Easy Scheduling: </strong> Plan your workouts ahead of
