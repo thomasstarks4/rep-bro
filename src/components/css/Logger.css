@@ -1,0 +1,15 @@
+.logger-container {
+  background-color: #082b46;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  height: auto;
+  color: white;
+  width: 80%;
+  margin: auto;
+}
+
+.inputs-container {
+  display: flex;
+}

@@ -40,6 +40,9 @@ body {
   font-style: normal;
 }
 
+.white {
+  color: white;
+}
 .t-center {
   text-align: center;
 }

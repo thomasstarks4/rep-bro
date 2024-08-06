@@ -7,9 +7,9 @@ function Home() {
       <div className="home-container">
         <div className="main-header">
           <div className="flex j-center">
-            <h2 className="home-header">
+            <h1 className="home-header">
               RepBro: Your All-in-One Workout Tracking App
-            </h2>
+            </h1>
           </div>
           <img className="home-image" src={appLogo} alt="App Logo" />
         </div>
@@ -20,7 +20,7 @@ function Home() {
           gym sessions, RepBro has got you covered.
         </h3>
         <div className="list-container">
-          <h3 className="t-center">Track Your Workouts with Ease</h3>
+          <h2 className="t-center">Track Your Workouts with Ease</h2>
           <ul>
             <li>
               <strong>Reps & Sets:</strong> Log each rep and set effortlessly.
@@ -36,7 +36,7 @@ function Home() {
           </ul>
         </div>
         <div className="list-container">
-          <h3 className="t-center">Plan and Schedule Your Workouts</h3>
+          <h2 className="t-center">Plan and Schedule Your Workouts</h2>
           <ul>
             <li>
               <strong>Printable Workout Plans:</strong> Design your workout
@@ -49,7 +49,7 @@ function Home() {
           </ul>
         </div>
         <div className="list-container">
-          <h3 className="t-center">Stay Organized and Motivated</h3>
+          <h2 className="t-center">Stay Organized and Motivated</h2>
           <ul>
             <li>
               <strong>Check Off Completed Workouts:</strong> Simply check off
