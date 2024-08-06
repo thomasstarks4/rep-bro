@@ -1,4 +1,4 @@
-import appLogo from "../images/rep-bro-logo.jpg";
+import appLogo from "../images/rep-bro-logo-2.jfif";
 import "./css/Navbar.css";
 import { useState } from "react";
 import { Link } from "react-router-dom";

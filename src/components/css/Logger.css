@@ -1,0 +1,185 @@
+/* Existing styles */
+.logger-container {
+  background-color: #082b46;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  height: auto;
+  color: white;
+  width: 80%;
+  margin: auto;
+  border-radius: 30px;
+  text-align: center;
+}
+
+.inputs-container {
+  display: flex;
+  background-color: #008cba;
+  margin-bottom: 5%;
+}
+
+.form-inputs {
+  margin-top: 10%;
+  display: flex;
+  flex-direction: column;
+  color: white;
+  text-align: center;
+}
+.input-1 {
+  width: 90%;
+  margin-bottom: 4%;
+}
+@media (max-width: 720px) {
+  .inputs-container {
+    flex-direction: column;
+  }
+}
+@media (min-width: 721px) {
+  .inputs-container {
+    flex-direction: row;
+    margin-bottom: 1%;
+    margin-top: 1%;
+    padding-bottom: 1%;
+    padding-top: 1%;
+  }
+}
+
+.input-container {
+  color: white;
+  display: flex;
+  flex-direction: column;
+}
+.btn-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.set-btns {
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-radius: 5px;
+  font-weight: 800;
+}
+
+/* New Set Button */
+.btn-new-set {
+  background-color: #4caf50; /* Green */
+  color: white;
+}
+
+.btn-new-set:hover {
+  background-color: #45a049;
+}
+
+/* Duplicate Set Button */
+.btn-dupe-set {
+  background-color: #008cba; /* Blue */
+  color: white;
+}
+
+.btn-dupe-set:hover {
+  background-color: #007bb5;
+}
+
+/* Additional Button Styles */
+
+/* Delete Set Button */
+.btn-delete-set {
+  background-color: #f44336; /* Red */
+  color: white;
+}
+
+.btn-delete-set:hover {
+  background-color: #da190b;
+}
+
+/* Save Set Button */
+.btn-save-set {
+  background-color: #ff9800; /* Orange */
+  color: white;
+}
+
+.btn-save-set:hover {
+  background-color: #e68900;
+}
+
+/* Reset Set Button */
+.btn-reset-set {
+  background-color: #9c27b0; /* Purple */
+  color: white;
+}
+
+.btn-reset-set:hover {
+  background-color: #7b1fa2;
+}
+
+.btn-description {
+  background-color: blue;
+  color: white;
+}
+
+.ts-form {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Help Popup*/
+
+.description-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+}
+
+.description-popup h3 {
+  margin-top: 0;
+}
+
+.description-popup ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.description-popup li {
+  margin-bottom: 10px;
+}
+
+.btn-close-description {
+  background-color: #f44336;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.btn-close-description:hover {
+  background-color: #da190b;
+}
+
+.btn-download-set {
+  background-color: #9d9d9d;
+}
+/* Fade-out animation */
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.fade-out {
+  animation: fadeOut 0.5s forwards;
+}
