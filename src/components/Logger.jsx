@@ -99,37 +99,49 @@ function Logger() {
 
   return (
     <>
-      <div>
+      <div className="ts-form-2 logger-container">
         {!workoutInfo.formCompleted ? (
-          <form onSubmit={handleWorkoutInfoSubmit}>
-            <div className="input-container">
-              <label htmlFor="workoutName">Workout Name</label>
-              <input
-                name="name"
-                type="text"
-                value={workoutInfo.name}
-                onChange={handleWorkoutInfoChange}
-                className="exercise-input"
-              />
-            </div>
-            <div className="input-container">
-              <label htmlFor="typeName">Type of Workout</label>
-              <input
-                name="typeName"
-                type="text"
-                value={workoutInfo.typeName}
-                onChange={handleWorkoutInfoChange}
-                className="exercise-input"
-              />
-            </div>
-            <button type="submit">Start Workout</button>
-          </form>
+          <div>
+            <h1 className="t-center white">Logger</h1>
+            <form className="ts-form" onSubmit={handleWorkoutInfoSubmit}>
+              <div className="input-container">
+                <label htmlFor="workoutName">Name Today's Workout!</label>
+                <input
+                  name="workoutName"
+                  id="workoutName"
+                  type="text"
+                  value={workoutInfo.name}
+                  onChange={handleWorkoutInfoChange}
+                  className="exercise-input"
+                />
+              </div>
+              <div className="input-container">
+                <label htmlFor="typeName">
+                  What type of workout are we hitting today?
+                </label>
+                <input
+                  name="typeName"
+                  id="typeName"
+                  type="text"
+                  value={workoutInfo.typeName}
+                  onChange={handleWorkoutInfoChange}
+                  className="exercise-input"
+                />
+              </div>
+              <button className="btn-ts-1" type="submit">
+                Start Workout
+              </button>
+            </form>
+          </div>
         ) : (
           <>
-            <h1 className="t-center white">Logger</h1>
             <div id="masterList" className="logger-container">
-              <h1 className="t-center white">{workoutInfo.name}</h1>
-              <h2 className="t-center white">{workoutInfo.typeName} Day</h2>
+              <h2 className="t-center white logger-header">
+                {workoutInfo.name}
+              </h2>
+              <h2 className="t-center white logger-header">
+                {workoutInfo.typeName} Day
+              </h2>
               {exerciseList.map((exercise, index) => (
                 <div
                   key={index}
