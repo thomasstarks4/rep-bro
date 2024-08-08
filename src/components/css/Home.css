@@ -12,7 +12,7 @@
 
 .content-container {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   flex: auto;
 }
 .main-header {
@@ -69,19 +69,17 @@
   align-items: center;
   justify-content: center;
 }
+
 /* Change flex-direction to column if width is below 500px */
-@media (max-width: 500px) {
-  .content-container {
-    flex-direction: column;
-  }
-}
+/* @media (max-width: 500px) {
+} */
 
 /* Change flex-direction to row if width is greater than 500px */
-@media (min-width: 501px) {
+/* @media (min-width: 501px) {
   .img-container {
     flex-direction: row;
   }
-}
+} */
 
 /* Logo Effects*/
 
