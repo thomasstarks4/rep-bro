@@ -88,7 +88,7 @@ function Home() {
           <Link className="flex" to={"/tracker"}>
             <button className="btn-ts-1">Log a workout now!</button>
           </Link>
-          <Link className="flex" to={"/tracker"}>
+          <Link className="flex" to={"/learn-more"}>
             <button className="btn-ts-1">Click here to learn more!</button>
           </Link>
         </div>

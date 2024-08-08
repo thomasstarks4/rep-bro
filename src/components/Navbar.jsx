@@ -8,6 +8,34 @@ function Navbar() {
   const toggleLinks = () => {
     setLinksOpen(!linksOpen);
   };
+  function isMobile() {
+    const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
+    // Checks for Android
+    if (/android/i.test(userAgent)) {
+      return true;
+    }
+
+    // Checks for iOS
+    if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+      return true;
+    }
+
+    // Checks for other mobile devices
+    if (/mobile/i.test(userAgent)) {
+      return true;
+    }
+
+    return false;
+  }
+
+  let deviceSelectString;
+  if (isMobile()) {
+    deviceSelectString = "Tap";
+  } else {
+    deviceSelectString = "Click";
+  }
+
   return (
     <>
       <div
@@ -21,26 +49,27 @@ function Navbar() {
               linksOpen ? "visible" : "hidden2 "
             } flexbox-container `}
           >
-            <button className="flexbox-item flexbox-item-1 link btn-ts-1">
-              Portfolio Page!
-            </button>
-            <button className="flexbox-item flexbox-item-2 link btn-ts-1">
-              Login/Sign Up
-            </button>
-            <button
-              onClick={() => {
-                window.location.href = "/tracker";
-              }}
-              className="flexbox-item flexbox-item-3 link btn-ts-1"
-            >
-              Log A Workout!
-            </button>
+            <Link to={"/not-implemented"}>
+              <button className="flexbox-item flexbox-item-1 link btn-ts-1">
+                Portfolio Page!
+              </button>
+            </Link>
+            <Link to={"/not-implemented"}>
+              <button className="flexbox-item flexbox-item-2 link btn-ts-1">
+                Login/Sign Up
+              </button>
+            </Link>
+            <Link to={"/tracker"}>
+              <button className="flexbox-item flexbox-item-3 link btn-ts-1">
+                Log A Workout!
+              </button>
+            </Link>
           </div>
           <div className="nav-body"></div>
         </div>
         {/* column 2 */}
         <div style={{ color: "white" }} className={`nav-resizer bottom col`}>
-          Click/Tap To {`${linksOpen ? "Minimize" : "Expand"}`}
+          {`${deviceSelectString} to ${linksOpen ? "Minimize" : "Expand"}`}
         </div>
         {/* column 3 */}
         <div

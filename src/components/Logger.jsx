@@ -213,19 +213,28 @@ function Logger() {
                 <h3>Button Descriptions</h3>
                 <ul>
                   <li>
-                    <strong className="btn-new-set">New Set:</strong> Add a new
-                    empty exercise set.
+                    <strong className="btn-new-set">New Set</strong>
+                    <br /> Add a new empty exercise set.
                   </li>
                   <li>
-                    <strong className="btn-dupe-set">Duplicate Set:</strong>{" "}
+                    <strong className="btn-dupe-set">
+                      Duplicate Set
+                      <br />
+                    </strong>{" "}
                     Duplicate the last entered exercise set.
                   </li>
                   <li>
-                    <strong className="btn-delete-set">Delete Last Set:</strong>{" "}
+                    <strong className="btn-delete-set">
+                      Delete Last Set
+                      <br />
+                    </strong>{" "}
                     Delete the last exercise set.
                   </li>
                   <li>
-                    <strong className="btn-download-set">Download CSV:</strong>{" "}
+                    <strong className="btn-download-set">
+                      Download CSV
+                      <br />
+                    </strong>{" "}
                     Download the workout data as a CSV file.
                   </li>
                 </ul>
