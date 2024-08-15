@@ -1,8 +1,9 @@
 import "./css/Logger.css";
 import { useState } from "react";
-
+// Main component of app, handles sets.
 function Logger() {
   const getCurrentDayAndDate = () => {
+    //for default workout name.
     const daysOfWeek = [
       "Sunday",
       "Monday",
@@ -24,6 +25,7 @@ function Logger() {
     name: `${getCurrentDayAndDate()}'s Workout`,
     typeName: "Strength Training",
     formCompleted: false,
+    isPlanned: false,
   });
 
   const [exerciseList, setExerciseList] = useState([
@@ -40,6 +42,12 @@ function Logger() {
     }));
   };
 
+  const handleCheckboxChange = (event) => {
+    setWorkoutInfo((prevInfo) => ({
+      ...prevInfo,
+      isPlanned: event.target.checked,
+    }));
+  };
   const handleWorkoutInfoSubmit = (e) => {
     e.preventDefault();
     setWorkoutInfo((prevInfo) => ({
@@ -63,6 +71,7 @@ function Logger() {
   };
 
   const deleteRow = (index) => {
+    debugger;
     const confirmed = window.confirm(
       "Are you sure you want to delete this row?"
     );
@@ -101,6 +110,7 @@ function Logger() {
     <>
       <div className="ts-form-2 logger-container">
         {!workoutInfo.formCompleted ? (
+          //Pre-Logger Information Form
           <div>
             <h1 className="t-center white">Logger</h1>
             <form className="ts-form" onSubmit={handleWorkoutInfoSubmit}>
@@ -110,7 +120,7 @@ function Logger() {
                   name="workoutName"
                   id="workoutName"
                   type="text"
-                  value={workoutInfo.name}
+                  placeholder={workoutInfo.name}
                   onChange={handleWorkoutInfoChange}
                   className="exercise-input"
                 />
@@ -128,13 +138,28 @@ function Logger() {
                   className="exercise-input"
                 />
               </div>
-              <button className="btn-ts-1" type="submit">
-                Start Workout
-              </button>
+              <div>
+                <small>
+                  Planned Workout?(adds checkboxes to help track your sets as
+                  you complete them)
+                </small>
+                <input
+                  name="isPlanned"
+                  id="isPlanned"
+                  type="checkbox"
+                  value={workoutInfo.isPlanned}
+                  onChange={handleCheckboxChange}
+                  className="exercise-input"
+                />
+                <button className="btn-ts-1" type="submit">
+                  Start Workout
+                </button>
+              </div>
             </form>
           </div>
         ) : (
           <>
+            {/* The Logger */}
             <div id="masterList" className="logger-container">
               <h2 className="t-center white logger-header">
                 {workoutInfo.name}
@@ -198,6 +223,26 @@ function Logger() {
                         setExerciseList(newList);
                       }}
                     />
+                  </div>
+                  <div className="input-container">
+                    {workoutInfo.isPlanned && (
+                      <>
+                        <label
+                          htmlFor={`ExerciseName${index}`}
+                          className="checkbox-label"
+                        >
+                          Completed
+                        </label>
+                        <input
+                          name={`ExerciseName${index}`}
+                          type="checkbox"
+                          style={{
+                            transform: "scale(1.5)",
+                            marginRight: "10px",
+                          }}
+                        />
+                      </>
+                    )}
                   </div>
                   <button
                     className="btn-delete-set set-btns"
