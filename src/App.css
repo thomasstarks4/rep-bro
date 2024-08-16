@@ -54,3 +54,8 @@ body {
 .col {
   flex: 1;
 }
+
+.not-implemented {
+  color: white !important;
+  background-color: grey !important;
+}

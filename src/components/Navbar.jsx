@@ -50,12 +50,12 @@ function Navbar() {
             } flexbox-container `}
           >
             <Link to={"/not-implemented"}>
-              <button className="flexbox-item flexbox-item-1 link btn-ts-1">
+              <button className="flexbox-item flexbox-item-1 link btn-ts-1 not-implemented">
                 Portfolio Page!
               </button>
             </Link>
             <Link to={"/not-implemented"}>
-              <button className="flexbox-item flexbox-item-2 link btn-ts-1">
+              <button className="flexbox-item flexbox-item-2 link btn-ts-1 not-implemented">
                 Login/Sign Up
               </button>
             </Link>
