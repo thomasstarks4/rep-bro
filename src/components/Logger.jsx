@@ -1,8 +1,8 @@
 import "./css/Logger.css";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 // Main component of app, handles sets.
 function Logger() {
-  const getCurrentDayAndDate = () => {
+  const getCurrentDayAndDate = useMemo(() => {
     //for default workout name.
     const daysOfWeek = [
       "Sunday",
@@ -19,10 +19,11 @@ function Logger() {
     const currentDate = time.toLocaleDateString();
 
     return `${dayName}, ${currentDate}`;
-  };
+  }, []);
 
+  const tempName = `${getCurrentDayAndDate}'s Workout`;
   const [workoutInfo, setWorkoutInfo] = useState({
-    name: `${getCurrentDayAndDate()}'s Workout`,
+    workoutName: tempName,
     typeName: "Strength Training",
     formCompleted: false,
     isPlanned: false,
@@ -35,19 +36,13 @@ function Logger() {
   const [showDescriptions, setShowDescriptions] = useState(false);
 
   const handleWorkoutInfoChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value, type, checked } = e.target;
     setWorkoutInfo((prevInfo) => ({
       ...prevInfo,
-      [name]: value,
+      [name]: type === "checkbox" ? checked : value,
     }));
   };
 
-  const handleCheckboxChange = (event) => {
-    setWorkoutInfo((prevInfo) => ({
-      ...prevInfo,
-      isPlanned: event.target.checked,
-    }));
-  };
   const handleWorkoutInfoSubmit = (e) => {
     e.preventDefault();
     setWorkoutInfo((prevInfo) => ({
@@ -89,7 +84,7 @@ function Logger() {
 
   const generateCSV = () => {
     let csvContent = "data:text/csv;charset=utf-8,";
-    csvContent += `Workout Name,${workoutInfo.name}\n`;
+    csvContent += `Workout Name,${workoutInfo.workoutName}\n`;
     csvContent += `Workout Type,${workoutInfo.typeName}\n\n`;
     csvContent += "Exercise Name,Number of Reps,Weight\n";
 
@@ -120,7 +115,7 @@ function Logger() {
                   name="workoutName"
                   id="workoutName"
                   type="text"
-                  placeholder={workoutInfo.name}
+                  value={workoutInfo.workoutName}
                   onChange={handleWorkoutInfoChange}
                   className="exercise-input"
                 />
@@ -147,8 +142,8 @@ function Logger() {
                   name="isPlanned"
                   id="isPlanned"
                   type="checkbox"
-                  value={workoutInfo.isPlanned}
-                  onChange={handleCheckboxChange}
+                  checked={workoutInfo.isPlanned}
+                  onChange={handleWorkoutInfoChange}
                   className="exercise-input"
                 />
                 <button className="btn-ts-1" type="submit">
@@ -162,10 +157,10 @@ function Logger() {
             {/* The Logger */}
             <div id="masterList" className="logger-container">
               <h2 className="t-center white logger-header">
-                {workoutInfo.name}
+                {workoutInfo.workoutName}
               </h2>
               <h2 className="t-center white logger-header">
-                {workoutInfo.typeName} Day
+                {workoutInfo.typeName}
               </h2>
               {exerciseList.map((exercise, index) => (
                 <div
@@ -252,74 +247,79 @@ function Logger() {
                   </button>
                 </div>
               ))}
-            </div>
-            {showDescriptions && (
-              <div className="description-popup">
-                <h3>Button Descriptions</h3>
-                <ul>
-                  <li>
-                    <strong className="btn-new-set">New Set</strong>
-                    <br /> Add a new empty exercise set.
-                  </li>
-                  <li>
-                    <strong className="btn-dupe-set">
-                      Duplicate Set
-                      <br />
-                    </strong>{" "}
-                    Duplicate the last entered exercise set.
-                  </li>
-                  <li>
-                    <strong className="btn-delete-set">
-                      Delete Last Set
-                      <br />
-                    </strong>{" "}
-                    Delete the last exercise set.
-                  </li>
-                  <li>
-                    <strong className="btn-download-set">
-                      Download CSV
-                      <br />
-                    </strong>{" "}
-                    Download the workout data as a CSV file.
-                  </li>
-                </ul>
+              <div className="btn-container">
                 <button
-                  className="btn-close-description"
-                  onClick={() => setShowDescriptions(false)}
+                  className="btn-new-set set-btns"
+                  onClick={addExerciseRow}
                 >
-                  Close
+                  New Set
+                </button>
+                <button
+                  className="btn-dupe-set set-btns"
+                  onClick={duplicateLastRow}
+                >
+                  Duplicate Set
+                </button>
+                <button
+                  className="btn-delete-set set-btns"
+                  onClick={() => deleteRow(exerciseList.length - 1)}
+                >
+                  Delete Last Set
                 </button>
               </div>
-            )}
-            <div className="btn-container">
-              <button className="btn-new-set set-btns" onClick={addExerciseRow}>
-                New Set
-              </button>
-              <button
-                className="btn-dupe-set set-btns"
-                onClick={duplicateLastRow}
-              >
-                Duplicate Set
-              </button>
-              <button
-                className="btn-delete-set set-btns"
-                onClick={() => deleteRow(exerciseList.length - 1)}
-              >
-                Delete Last Set
-              </button>
+              <div className="btn-container">
+                <button
+                  className="btn-download-set set-btns"
+                  onClick={generateCSV}
+                >
+                  Download CSV
+                </button>
+                <button
+                  className="btn-description set-btns"
+                  onClick={() => setShowDescriptions(true)}
+                >
+                  Show Descriptions
+                </button>
+              </div>
+              {/* end of logger container */}
             </div>
           </>
         )}
-        {workoutInfo.formCompleted && (
-          <div className="btn-container">
-            <button className="btn-download-set set-btns" onClick={generateCSV}>
-              Download CSV
-            </button>
+        {showDescriptions && (
+          <div className="description-popup">
+            <h3>Button Descriptions</h3>
+            <ul>
+              <li>
+                <strong className="btn-new-set">New Set</strong>
+                <br /> Add a new empty exercise set.
+              </li>
+              <li>
+                <strong className="btn-dupe-set">
+                  Duplicate Set
+                  <br />
+                </strong>{" "}
+                Duplicate the last entered exercise set.
+              </li>
+              <li>
+                <strong className="btn-delete-set">
+                  Delete Last Set
+                  <br />
+                </strong>{" "}
+                Delete the last exercise set.
+              </li>
+              <li>
+                <strong className="btn-download-set">
+                  Download CSV
+                  <br />
+                </strong>{" "}
+                Download the workout data as a CSV file.
+              </li>
+            </ul>
             <button
-              className="btn-description set-btns"
-              onClick={() => setShowDescriptions(true)}
+              className="btn-close-description"
+              onClick={() => setShowDescriptions(false)}
             >
-              Show Descriptions
+              Close
             </button>
           </div>
         )}
