@@ -29,9 +29,8 @@ function Logger() {
     isPlanned: false,
   });
 
-  const [exerciseList, setExerciseList] = useState([
-    { exerciseName: "", numberOfReps: "", weight: "" },
-  ]);
+  const initialList = [{ exerciseName: "", numberOfReps: "", weight: "" }];
+  const [exerciseList, setExerciseList] = useState(initialList);
 
   const [showDescriptions, setShowDescriptions] = useState(false);
 
@@ -65,20 +64,22 @@ function Logger() {
     }
   };
 
-  const deleteRow = (index) => {
-    debugger;
+  const deleteRow = (index, bLastSet) => {
+    bLastSet = bLastSet || false;
     const confirmed = window.confirm(
       "Are you sure you want to delete this row?"
     );
     if (confirmed) {
       const updatedList = [...exerciseList];
       const rowElement = document.getElementById(`exercise-row-${index}`);
-
-      rowElement.classList.add("fade-out");
-      setTimeout(() => {
-        updatedList.splice(index, 1);
-        setExerciseList(updatedList);
-      }, 500); // Match the duration of the fade-out animation
+      if (rowElement) {
+        rowElement.classList.add("fade-out");
+        setTimeout(() => {
+          updatedList.splice(index, 1);
+          setExerciseList(updatedList);
+          checkForFadeOuts();
+        }, 500); // Match the duration of the fade-out animation
+      }
     }
   };
 
@@ -95,10 +96,18 @@ function Logger() {
     const encodedUri = encodeURI(csvContent);
     const link = document.createElement("a");
     link.setAttribute("href", encodedUri);
-    link.setAttribute("download", "workout_data.csv");
+    link.setAttribute("download", `${workoutInfo.workoutName}.csv`);
     document.body.appendChild(link); // Required for FF
     link.click();
     document.body.removeChild(link); // Clean up
+  };
+
+  //Ensures no extra elements get the class added
+  const checkForFadeOuts = () => {
+    const fadeOutElements = document.getElementsByClassName("fade-out");
+    Array.from(fadeOutElements).forEach((element) => {
+      element.classList.remove("fade-out");
+    });
   };
 
   return (
@@ -121,7 +130,7 @@ function Logger() {
                 />
               </div>
               <div className="input-container">
-                <label htmlFor="typeName">
+                <label className="md-label" htmlFor="typeName">
                   What type of workout are we hitting today?
                 </label>
                 <input
@@ -133,7 +142,7 @@ function Logger() {
                   className="exercise-input"
                 />
               </div>
-              <div>
+              <div className="md-label">
                 <small>
                   Planned Workout?(adds checkboxes to help track your sets as
                   you complete them)
@@ -174,6 +183,7 @@ function Logger() {
                     </label>
                     <input
                       name={`ExerciseName${index}`}
+                      id={`ExerciseName${index}`}
                       type="text"
                       className="exercise-input"
                       value={exercise.exerciseName}
@@ -193,6 +203,7 @@ function Logger() {
                     </label>
                     <input
                       name={`NumberOfReps${index}`}
+                      id={`NumberOfReps${index}`}
                       type="text"
                       className="exercise-input"
                       value={exercise.numberOfReps}
@@ -209,6 +220,7 @@ function Logger() {
                     </label>{" "}
                     <input
                       name={`Weight${index}`}
+                      id={`Weight${index}`}
                       type="text"
                       className="exercise-input"
                       value={exercise.weight}
@@ -219,8 +231,8 @@ function Logger() {
                       }}
                     />
                   </div>
-                  <div className="input-container">
-                    {workoutInfo.isPlanned && (
+                  {workoutInfo.isPlanned && (
+                    <div className="input-container">
                       <>
                         <label
                           htmlFor={`ExerciseName${index}`}
@@ -230,6 +242,7 @@ function Logger() {
                         </label>
                         <input
                           name={`ExerciseName${index}`}
+                          id={`ExerciseName${index}`}
                           type="checkbox"
                           style={{
                             transform: "scale(1.5)",
@@ -237,11 +250,11 @@ function Logger() {
                           }}
                         />
                       </>
-                    )}
-                  </div>
+                    </div>
+                  )}
                   <button
                     className="btn-delete-set set-btns"
-                    onClick={() => deleteRow(index)}
+                    onClick={() => deleteRow(index, false)}
                   >
                     Delete
                   </button>
@@ -262,12 +275,10 @@ function Logger() {
                 </button>
                 <button
                   className="btn-delete-set set-btns"
-                  onClick={() => deleteRow(exerciseList.length - 1)}
+                  onClick={() => deleteRow(exerciseList.length - 1, true)}
                 >
                   Delete Last Set
                 </button>
-              </div>
-              <div className="btn-container">
                 <button
                   className="btn-download-set set-btns"
                   onClick={generateCSV}
