@@ -125,3 +125,41 @@
   100% {
   }
 }
+
+.gradient-button {
+  background: linear-gradient(45deg, #105992, #082b46); /* Gradient background */
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-flex; /* Changed to inline-flex */
+  align-items: center; /* Vertically center text */
+  justify-content: center; /* Horizontally center text */
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 50px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
+}
+
+.gradient-button:hover {
+  background: linear-gradient(45deg, #1b9bff, #082b46); /* Change gradient on hover */
+  transform: translateY(-3px); /* Lift the button on hover */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+@media (max-width: 460px) {
+  .gradient-button {
+    padding: 10px; /* Adjust padding for small screens */
+    font-size: 14px; /* Optional: Adjust font size for better fit */
+  }
+}
+@media (max-width: 400px) {
+  .gradient-button {
+    padding: 5px; /* Adjust padding for small screens */
+    font-size: 14px; /* Optional: Adjust font size for better fit */
+  }
+}
+

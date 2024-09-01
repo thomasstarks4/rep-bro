@@ -56,6 +56,63 @@ body {
 }
 
 .not-implemented {
-  color: white !important;
-  background-color: grey !important;
+  background: linear-gradient(45deg, #3e3e3e, #2e2e2e); /* Gradient background */
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-flex; /* Changed to inline-flex */
+  align-items: center; /* Vertically center text */
+  justify-content: center; /* Horizontally center text */
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 50px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
+  position: relative; /* Establishes a positioning context for the tooltip */
+  cursor: pointer; /* Indicates that the element is interactive */
+}
+
+.not-implemented:hover {
+  background: linear-gradient(45deg, #646464, #3e3e3e); /* Change gradient on hover */
+  transform: translateY(-3px); /* Lift the button on hover */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+@media (max-width: 460px) {
+  .not-implemented {
+    padding: 10px; /* Adjust padding for small screens */
+    font-size: 14px; /* Optional: Adjust font size for better fit */
+  }
+}
+@media (max-width: 400px) {
+  .not-implemented {
+    padding: 5px; /* Adjust padding for small screens */
+    font-size: 14px; /* Optional: Adjust font size for better fit */
+  }
+}
+
+
+.not-implemented .tooltip {
+  visibility: hidden; /* Hides the tooltip by default */
+  width: 250px; /* Width of the tooltip */
+  background-color: #333; /* Background color of the tooltip */
+  color: #fff; /* Text color of the tooltip */
+  text-align: center; /* Centers text within the tooltip */
+  border-radius: 5px; /* Rounded corners */
+  padding: 10px; /* Padding inside the tooltip */
+  position: absolute; /* Positions the tooltip absolutely within the container */
+  z-index: 1; /* Ensures the tooltip appears above other content */
+  bottom: 50%; /* Aligns the bottom of the tooltip with the middle of the parent */
+  left: 105%; /* Positions the tooltip to the right of the parent */
+  transform: translateY(50%); /* Adjusts the vertical position of the tooltip */
+  opacity: 0; /* Makes the tooltip invisible */
+  transition: opacity 0.3s; /* Smooth transition for appearance */
+}
+
+.not-implemented:hover .tooltip {
+  visibility: visible; /* Shows the tooltip on hover */
+  opacity: 1; /* Makes the tooltip fully visible */
 }

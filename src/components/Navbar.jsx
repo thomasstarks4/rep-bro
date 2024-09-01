@@ -49,18 +49,19 @@ function Navbar() {
               linksOpen ? "visible" : "hidden2 "
             } flexbox-container `}
           >
-            <Link to={"/not-implemented"}>
-              <button className="flexbox-item flexbox-item-1 link btn-ts-1 not-implemented">
+            <a href="http://www.codingwithtom.com" target="_blank" rel="noreferrer">
+              <button className="flexbox-item flexbox-item-1 link gradient-button">
                 Portfolio Page!
               </button>
-            </Link>
+            </a>
             <Link to={"/not-implemented"}>
-              <button className="flexbox-item flexbox-item-2 link btn-ts-1 not-implemented">
+              <button className="flexbox-item flexbox-item-2 link not-implemented">
+              <span class="tooltip">This feature is not yet implemented. Come back later!</span>
                 Login/Sign Up
               </button>
             </Link>
             <Link to={"/tracker"}>
-              <button className="flexbox-item flexbox-item-3 link btn-ts-1">
+              <button className="flexbox-item flexbox-item-3 link gradient-button">
                 Log A Workout!
               </button>
             </Link>
@@ -68,7 +69,7 @@ function Navbar() {
           <div className="nav-body"></div>
         </div>
         {/* column 2 */}
-        <div style={{ color: "white" }} className={`nav-resizer bottom col`}>
+        <div style={{ color: "white" }} className={`nav-resizer col`}>
           {`${deviceSelectString} to ${linksOpen ? "Minimize" : "Expand"}`}
         </div>
         {/* column 3 */}

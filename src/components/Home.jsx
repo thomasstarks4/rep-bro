@@ -1,6 +1,7 @@
 import appLogo from "../images/rep-bro-logo-2.jfif";
 import headerImg1 from "../images/karsten-winegeart-0Wra5YYVQJE-unsplash.jpg";
 import headerImg2 from "../images/alora-griffiths-E3wehabi_B4-unsplash.jpg";
+import headerImg3 from "../images/alonso-reyes-0HlI76m4jxU-unsplash.jpg";
 import { Link } from "react-router-dom";
 import "./css/Home.css";
 function Home() {
@@ -55,7 +56,7 @@ function Home() {
             <div className="content-item-2">
               <h2 className="t-center">Plan and Schedule Your Workouts</h2>
               <div className="img-container">
-                <img className="home-image" src={headerImg2} alt="Man" />
+                <img className="home-image" src={headerImg2} alt="Man exercising" />
               </div>
               <ul>
                 <li>
@@ -70,9 +71,11 @@ function Home() {
               </ul>
             </div>
           </div>
-        </div>
-        <div className="list-container">
+          <div className="content-container">
           <h2 className="t-center">Stay Organized and Motivated</h2>
+          <div className="img-container">
+            <img className="home-image" src={headerImg3} alt="Man performing kettlebell exercise" />
+          </div>
           <ul>
             <li>
               <strong>Check Off Completed Workouts:</strong> Simply check off
@@ -84,13 +87,16 @@ function Home() {
             </li>
           </ul>
         </div>
-        <div className="button-container flex j-space">
-          <Link className="flex" to={"/tracker"}>
-            <button className="btn-ts-1">Log a workout now!</button>
+        </div>
+        <div className="">
+          <Link className="" to={"/tracker"}>
+            <button className="gradient-button">Log a workout now!</button>
           </Link>
-          <Link className="flex" to={"/learn-more"}>
+          {/* Learn More page will come after login/signup page and premium features are developed. 
+          This page will explain all the premium features and compare them to the basic/free features. */}
+          {/* <Link className="flex" to={"/learn-more"}>
             <button className="btn-ts-1">Click here to learn more!</button>
-          </Link>
+          </Link> */}
         </div>
       </div>
     </>
