@@ -9,7 +9,6 @@ function NotImplemented() {
         <h2>
         <Link className="link white" to={"/"}>
         <button className="gradient-button">
-
           Click here to go back
         </button>
         </Link>

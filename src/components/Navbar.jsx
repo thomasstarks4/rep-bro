@@ -56,7 +56,7 @@ function Navbar() {
             </a>
             <Link to={"/not-implemented"}>
               <button className="flexbox-item flexbox-item-2 link not-implemented">
-              <span class="tooltip">This feature is not yet implemented. Come back later!</span>
+              <span className="tooltip">This feature is not yet implemented. Come back later!</span>
                 Login/Sign Up
               </button>
             </Link>

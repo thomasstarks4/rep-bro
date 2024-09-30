@@ -1,9 +1,10 @@
 import "./css/Logger.css";
 import { useState, useMemo } from "react";
+import SessionTimer from "./SessionTimer";
+
 // Main component of app, handles sets.
 function Logger() {
   const getCurrentDayAndDate = useMemo(() => {
-    //for default workout name.
     const daysOfWeek = [
       "Sunday",
       "Monday",
@@ -13,11 +14,9 @@ function Logger() {
       "Friday",
       "Saturday",
     ];
-
     const time = new Date();
     const dayName = daysOfWeek[time.getDay()];
     const currentDate = time.toLocaleDateString();
-
     return `${dayName}, ${currentDate}`;
   }, []);
 
@@ -27,11 +26,15 @@ function Logger() {
     typeName: "Strength Training",
     formCompleted: false,
     isPlanned: false,
+    isTimed: true,
   });
 
-  const initialList = [{ exerciseName: "", numberOfReps: "", weight: "" }];
-  const [exerciseList, setExerciseList] = useState(initialList);
+  // Unified list to hold both exercise and cardio sets.
+  const [workoutSets, setWorkoutSets] = useState([
+    { type: "exercise", exerciseName: "", numberOfReps: "", weight: "" }, // example of exercise set
+  ]);
 
+  //State to show and hide button descriptions
   const [showDescriptions, setShowDescriptions] = useState(false);
 
   const handleWorkoutInfoChange = (e) => {
@@ -41,7 +44,7 @@ function Logger() {
       [name]: type === "checkbox" ? checked : value,
     }));
   };
-
+  
   const handleWorkoutInfoSubmit = (e) => {
     e.preventDefault();
     setWorkoutInfo((prevInfo) => ({
@@ -50,75 +53,111 @@ function Logger() {
     }));
   };
 
-  const addExerciseRow = () => {
-    setExerciseList([
-      ...exerciseList,
-      { exerciseName: "", numberOfReps: "", weight: "" },
-    ]);
+  // Function to add a new row (either exercise or cardio)
+  const addExerciseRow = (rowType) => {
+    const newRow =
+      rowType === "exercise"
+        ? { type: "exercise", exerciseName: "", numberOfReps: "", weight: "" }
+        : {
+            type: "cardio",
+            cardioName: "",
+            time: 0,
+            intensity: "",
+            timerRunning: false,
+          };
+
+    setWorkoutSets([...workoutSets, newRow]);
   };
 
+  // Function to duplicate the last row (whether exercise or cardio)
   const duplicateLastRow = () => {
-    if (exerciseList.length > 0) {
-      const lastRow = exerciseList[exerciseList.length - 1];
-      setExerciseList([...exerciseList, { ...lastRow }]);
+    if (workoutSets.length > 0) {
+      const lastRow = workoutSets[workoutSets.length - 1];
+      setWorkoutSets([...workoutSets, { ...lastRow }]);
     }
   };
 
-  const deleteRow = (index, bLastSet) => {
-    bLastSet = bLastSet || false;
+  // Function to delete a row by index
+  const deleteRow = (index) => {
     const confirmed = window.confirm(
       "Are you sure you want to delete this row?"
     );
     if (confirmed) {
-      const updatedList = [...exerciseList];
-      const rowElement = document.getElementById(`exercise-row-${index}`);
+      const updatedList = [...workoutSets];
+      const rowElement = document.getElementById(`workout-row-${index}`);
       if (rowElement) {
         rowElement.classList.add("fade-out");
         setTimeout(() => {
           updatedList.splice(index, 1);
-          setExerciseList(updatedList);
+          setWorkoutSets(updatedList);
           checkForFadeOuts();
         }, 500); // Match the duration of the fade-out animation
       }
     }
   };
 
+  // Toggle timer for cardio sets
+  const toggleTimer = (index) => {
+    setWorkoutSets((prevList) => {
+      const updatedList = [...prevList];
+      const cardioItem = updatedList[index];
+      cardioItem.timerRunning = !cardioItem.timerRunning;
+
+      if (cardioItem.timerRunning) {
+        cardioItem.timerInterval = setInterval(() => {
+          setWorkoutSets((prevList) => {
+            const updated = [...prevList];
+            updated[index].time += 1;
+            return updated;
+          });
+        }, 1000);
+      } else {
+        clearInterval(cardioItem.timerInterval);
+      }
+
+      return updatedList;
+    });
+  };
+
   const generateCSV = () => {
     let csvContent = "data:text/csv;charset=utf-8,";
     csvContent += `Workout Name,${workoutInfo.workoutName}\n`;
     csvContent += `Workout Type,${workoutInfo.typeName}\n\n`;
-    csvContent += "Exercise Name,Number of Reps,Weight\n";
+    csvContent += "Type,Name,Reps/Time,Weight/Intensity\n";
 
-    exerciseList.forEach((exercise) => {
-      csvContent += `${exercise.exerciseName},${exercise.numberOfReps},${exercise.weight}\n`;
+    workoutSets.forEach((set) => {
+      if (set.type === "exercise") {
+        csvContent += `Exercise,${set.exerciseName},${set.numberOfReps},${set.weight}\n`;
+      } else if (set.type === "cardio") {
+        csvContent += `Cardio,${set.cardioName},${set.time},${set.intensity}\n`;
+      }
     });
 
     const encodedUri = encodeURI(csvContent);
     const link = document.createElement("a");
     link.setAttribute("href", encodedUri);
     link.setAttribute("download", `${workoutInfo.workoutName}.csv`);
-    document.body.appendChild(link); // Required for FF
+    document.body.appendChild(link);
     link.click();
-    document.body.removeChild(link); // Clean up
+    document.body.removeChild(link);
   };
 
-  //Ensures no extra elements get the class added
+  // Ensures no extra elements get the class added
   const checkForFadeOuts = () => {
     const fadeOutElements = document.getElementsByClassName("fade-out");
     Array.from(fadeOutElements).forEach((element) => {
       element.classList.remove("fade-out");
     });
   };
-
   return (
     <>
+      {workoutInfo.isTimed && workoutInfo.formCompleted && <SessionTimer />}
       <div className="ts-form-2 logger-container">
         {!workoutInfo.formCompleted ? (
-          //Pre-Logger Information Form
           <div>
             <h1 className="t-center white">Logger</h1>
             <form className="ts-form" onSubmit={handleWorkoutInfoSubmit}>
-              <div className="input-container">
+            <div className="input-container-2">
                 <label htmlFor="workoutName">Name Today's Workout!</label>
                 <input
                   name="workoutName"
@@ -129,7 +168,7 @@ function Logger() {
                   className="exercise-input"
                 />
               </div>
-              <div className="input-container">
+              <div className="input-container-2">
                 <label className="md-label" htmlFor="typeName">
                   What type of workout are we hitting today?
                 </label>
@@ -143,10 +182,6 @@ function Logger() {
                 />
               </div>
               <div className="md-label">
-                <small>
-                  Planned Workout?(adds checkboxes to help track your sets as
-                  you complete them)
-                </small>
                 <input
                   name="isPlanned"
                   id="isPlanned"
@@ -155,15 +190,32 @@ function Logger() {
                   onChange={handleWorkoutInfoChange}
                   className="exercise-input"
                 />
-                <button className="btn-ts-1" type="submit">
-                  Start Workout
-                </button>
+                <small>
+                  Planned Workout? <br />(adds checkboxes to help track your sets as
+                  you complete them)
+                </small>
               </div>
+              <div className="md-label">
+                <input
+                  name="isTimed"
+                  id="isTimed"
+                  type="checkbox"
+                  checked={workoutInfo.isTimed}
+                  onChange={handleWorkoutInfoChange}
+                  className="exercise-input"
+                />
+                <small>
+                  Time Your Workout? <br />(Adds a session timer so you can track how long your total workout was. Timer starts as soon as you hit "Start Workout")
+                </small>
+              </div>
+              <button className="btn-ts-1" type="submit">
+                Start Workout
+              </button>
             </form>
+            <h1 className="invisible">Logger</h1>
           </div>
         ) : (
           <>
-            {/* The Logger */}
             <div id="masterList" className="logger-container">
               <h2 className="t-center white logger-header">
                 {workoutInfo.workoutName}
@@ -171,128 +223,115 @@ function Logger() {
               <h2 className="t-center white logger-header">
                 {workoutInfo.typeName}
               </h2>
-              {exerciseList.map((exercise, index) => (
+              {workoutSets.map((set, index) => (
                 <div
                   key={index}
-                  id={`exercise-row-${index}`}
-                  className="inputs-container"
+                  id={`workout-row-${index}`}
+                  className="exercise-set"
                 >
-                  <div className="input-container">
-                    <label htmlFor={`ExerciseName${index}`}>
-                      Exercise Name
-                    </label>
-                    <input
-                      name={`ExerciseName${index}`}
-                      id={`ExerciseName${index}`}
-                      type="text"
-                      className="exercise-input"
-                      value={exercise.exerciseName}
-                      onChange={(e) => {
-                        const newList = [...exerciseList];
-                        newList[index].exerciseName = e.target.value;
-                        setExerciseList(newList);
-                      }}
-                    />
-                  </div>
-                  <div className="input-container">
-                    <label
-                      htmlFor={`NumberOfReps${index}`}
-                      className="exercise-label"
-                    >
-                      Number Of Reps
-                    </label>
-                    <input
-                      name={`NumberOfReps${index}`}
-                      id={`NumberOfReps${index}`}
-                      type="text"
-                      className="exercise-input"
-                      value={exercise.numberOfReps}
-                      onChange={(e) => {
-                        const newList = [...exerciseList];
-                        newList[index].numberOfReps = e.target.value;
-                        setExerciseList(newList);
-                      }}
-                    />
-                  </div>
-                  <div className="input-container">
-                    <label htmlFor={`Weight${index}`} className="Weight">
-                      Weight
-                    </label>{" "}
-                    <input
-                      name={`Weight${index}`}
-                      id={`Weight${index}`}
-                      type="text"
-                      className="exercise-input"
-                      value={exercise.weight}
-                      onChange={(e) => {
-                        const newList = [...exerciseList];
-                        newList[index].weight = e.target.value;
-                        setExerciseList(newList);
-                      }}
-                    />
-                  </div>
-                  {workoutInfo.isPlanned && (
-                    <div className="input-container">
-                      <>
-                        <label
-                          htmlFor={`ExerciseName${index}`}
-                          className="checkbox-label"
-                        >
-                          Completed
+                  {set.type === "exercise" ? (
+                    <>
+                      <div className="input-container">
+                        <label htmlFor={`ExerciseName${index}`}>
+                          Exercise Name
                         </label>
                         <input
                           name={`ExerciseName${index}`}
                           id={`ExerciseName${index}`}
-                          type="checkbox"
-                          style={{
-                            transform: "scale(1.5)",
-                            marginRight: "10px",
+                          type="text"
+                          className="exercise-input"
+                          value={set.exerciseName}
+                          onChange={(e) => {
+                            const updatedList = [...workoutSets];
+                            updatedList[index].exerciseName = e.target.value;
+                            setWorkoutSets(updatedList);
                           }}
                         />
-                      </>
-                    </div>
+                      </div>
+                      <div className="input-container">
+                        <label htmlFor={`NumberOfReps${index}`}>
+                          Number Of Reps
+                        </label>
+                        <input
+                          name={`NumberOfReps${index}`}
+                          id={`NumberOfReps${index}`}
+                          type="text"
+                          className="exercise-input"
+                          value={set.numberOfReps}
+                          onChange={(e) => {
+                            const updatedList = [...workoutSets];
+                            updatedList[index].numberOfReps = e.target.value;
+                            setWorkoutSets(updatedList);
+                          }}
+                        />
+                      </div>
+                      <div className="input-container">
+                        <label htmlFor={`Weight${index}`}>Weight</label>
+                        <input
+                          name={`Weight${index}`}
+                          id={`Weight${index}`}
+                          type="text"
+                          className="exercise-input text-lg"
+                          value={set.weight}
+                          onChange={(e) => {
+                            const updatedList = [...workoutSets];
+                            updatedList[index].weight = e.target.value;
+                            setWorkoutSets(updatedList);
+                          }}
+                        />
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <div className="input-container">
+                        <label htmlFor={`CardioName${index}`}>
+                          Cardio Name
+                        </label>
+                        <input
+                          name={`CardioName${index}`}
+                          type="text"
+                          className="cardio-input"
+                          value={set.cardioName}
+                          onChange={(e) => {
+                            const updatedList = [...workoutSets];
+                            updatedList[index].cardioName = e.target.value;
+                            setWorkoutSets(updatedList);
+                          }}
+                        />
+                      </div>
+                      <div className="input-container">
+                        <div htmlFor={`CardioTime${index}`}>
+                          Time (seconds): {set.time}
+                        </div>
+
+                        <button onClick={() => toggleTimer(index)}>
+                          {set.timerRunning ? "Stop" : "Start"} Timer
+                        </button>
+                      </div>
+                      <div className="input-container">
+                        <label htmlFor={`Intensity${index}`}>Intensity</label>
+                        <input
+                          name={`Intensity${index}`}
+                          type="text"
+                          className="cardio-input"
+                          value={set.intensity}
+                          onChange={(e) => {
+                            const updatedList = [...workoutSets];
+                            updatedList[index].intensity = e.target.value;
+                            setWorkoutSets(updatedList);
+                          }}
+                        />
+                      </div>
+                    </>
                   )}
                   <button
                     className="btn-delete-set set-btns"
-                    onClick={() => deleteRow(index, false)}
+                    onClick={() => deleteRow(index)}
                   >
                     Delete
                   </button>
                 </div>
               ))}
-              <div className="btn-container">
-                <button
-                  className="btn-new-set set-btns"
-                  onClick={addExerciseRow}
-                >
-                  New Set
-                </button>
-                <button
-                  className="btn-dupe-set set-btns"
-                  onClick={duplicateLastRow}
-                >
-                  Duplicate Set
-                </button>
-                <button
-                  className="btn-delete-set set-btns"
-                  onClick={() => deleteRow(exerciseList.length - 1, true)}
-                >
-                  Delete Last Set
-                </button>
-                <button
-                  className="btn-download-set set-btns"
-                  onClick={generateCSV}
-                >
-                  Download CSV
-                </button>
-                <button
-                  className="btn-description set-btns"
-                  onClick={() => setShowDescriptions(true)}
-                >
-                  Show Descriptions
-                </button>
-              </div>
-              {/* end of logger container */}
             </div>
           </>
         )}
@@ -334,6 +373,45 @@ function Logger() {
             </button>
           </div>
         )}
+      </div>
+      <div
+        className={`btn-container ${workoutInfo.formCompleted ? "" : "hidden"}`}
+      >
+        <button
+          className="btn-new-set set-btns"
+          onClick={function () {
+            addExerciseRow("exercise");
+          }}
+        >
+          New Set
+        </button>
+        <button
+          className="btn-new-set set-btns"
+          onClick={function () {
+            addExerciseRow("cardio");
+          }}
+        >
+          New Cardio Set
+        </button>
+
+        <button className="btn-dupe-set set-btns" onClick={duplicateLastRow}>
+          Duplicate Set
+        </button>
+        <button
+          className="btn-delete-set set-btns"
+          onClick={() => deleteRow(workoutSets.length - 1, true)}
+        >
+          Delete Last Set
+        </button>
+        <button className="btn-download-set set-btns" onClick={generateCSV}>
+          Download CSV
+        </button>
+        <button
+          className="btn-description set-btns"
+          onClick={() => setShowDescriptions(true)}
+        >
+          Show Descriptions
+        </button>
       </div>
     </>
   );
