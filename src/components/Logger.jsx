@@ -19,10 +19,10 @@ function Logger() {
     const currentDate = time.toLocaleDateString();
     return `${dayName}, ${currentDate}`;
   }, []);
-
-  const tempName = `${getCurrentDayAndDate}'s Workout`;
+  //temporary name for the workout using today's date.
+  const tempWorkoutName = `${getCurrentDayAndDate}'s Workout`;
   const [workoutInfo, setWorkoutInfo] = useState({
-    workoutName: tempName,
+    workoutName: tempWorkoutName,
     typeName: "Strength Training",
     formCompleted: false,
     isPlanned: false,
@@ -44,7 +44,7 @@ function Logger() {
       [name]: type === "checkbox" ? checked : value,
     }));
   };
-  
+
   const handleWorkoutInfoSubmit = (e) => {
     e.preventDefault();
     setWorkoutInfo((prevInfo) => ({
@@ -149,16 +149,33 @@ function Logger() {
       element.classList.remove("fade-out");
     });
   };
+
+  const calculateTime = (time = 0) => {
+    let hours = 0;
+    let minutes = 0;
+    let seconds = time;
+    while (seconds >= 60) {
+      seconds -= 60;
+      minutes += 1;
+      if (minutes >= 60) {
+        minutes -= 60;
+        hours += 1;
+      }
+    }
+    return `${hours >= 10 ? hours.toString() : "0" + hours.toString()}:${
+      minutes >= 10 ? minutes.toString() : "0" + minutes.toString()
+    }:${seconds >= 10 ? seconds.toString() : "0" + seconds.toString()}`;
+  };
   return (
     <>
       {workoutInfo.isTimed && workoutInfo.formCompleted && <SessionTimer />}
       <div className="ts-form-2 logger-container">
         {!workoutInfo.formCompleted ? (
           <div>
-            <h1 className="t-center white">Logger</h1>
+            <h1 className="t-center white m-0">Logger</h1>
             <form className="ts-form" onSubmit={handleWorkoutInfoSubmit}>
-            <div className="input-container-2">
-                <label htmlFor="workoutName">Name Today's Workout!</label>
+              <div className="input-container-2">
+                <label htmlFor="workoutName">Workout Name</label>
                 <input
                   name="workoutName"
                   id="workoutName"
@@ -191,8 +208,8 @@ function Logger() {
                   className="exercise-input"
                 />
                 <small>
-                  Planned Workout? <br />(adds checkboxes to help track your sets as
-                  you complete them)
+                  Planned Workout? <br />
+                  (adds checkboxes to help track your sets as you complete them)
                 </small>
               </div>
               <div className="md-label">
@@ -205,24 +222,26 @@ function Logger() {
                   className="exercise-input"
                 />
                 <small>
-                  Time Your Workout? <br />(Adds a session timer so you can track how long your total workout was. Timer starts as soon as you hit "Start Workout")
+                  Time Your Workout? <br />
+                  (Adds a session timer so you can track how long your total
+                  workout was. Timer starts as soon as you hit "Start Workout")
                 </small>
               </div>
               <button className="btn-ts-1" type="submit">
                 Start Workout
               </button>
             </form>
-            <h1 className="invisible">Logger</h1>
+            <h1 className="invisible m-0">Logger</h1>
           </div>
         ) : (
           <>
+            <h2 className="t-center white logger-header">
+              {workoutInfo.workoutName}
+            </h2>
+            <h2 className="t-center white logger-header">
+              {workoutInfo.typeName}
+            </h2>
             <div id="masterList" className="logger-container">
-              <h2 className="t-center white logger-header">
-                {workoutInfo.workoutName}
-              </h2>
-              <h2 className="t-center white logger-header">
-                {workoutInfo.typeName}
-              </h2>
               {workoutSets.map((set, index) => (
                 <div
                   key={index}
@@ -289,6 +308,7 @@ function Logger() {
                         </label>
                         <input
                           name={`CardioName${index}`}
+                          id={`CardioName${index}`}
                           type="text"
                           className="cardio-input"
                           value={set.cardioName}
@@ -300,9 +320,9 @@ function Logger() {
                         />
                       </div>
                       <div className="input-container">
-                        <div htmlFor={`CardioTime${index}`}>
-                          Time (seconds): {set.time}
-                        </div>
+                        <label htmlFor={`CardioTime${index}`}>
+                          Time: {calculateTime(set.time)}
+                        </label>
 
                         <button onClick={() => toggleTimer(index)}>
                           {set.timerRunning ? "Stop" : "Start"} Timer
@@ -325,7 +345,7 @@ function Logger() {
                     </>
                   )}
                   <button
-                    className="btn-delete-set set-btns"
+                    className="btn-delete-set "
                     onClick={() => deleteRow(index)}
                   >
                     Delete
@@ -374,45 +394,45 @@ function Logger() {
           </div>
         )}
       </div>
-      <div
-        className={`btn-container ${workoutInfo.formCompleted ? "" : "hidden"}`}
-      >
-        <button
-          className="btn-new-set set-btns"
-          onClick={function () {
-            addExerciseRow("exercise");
-          }}
-        >
-          New Set
-        </button>
-        <button
-          className="btn-new-set set-btns"
-          onClick={function () {
-            addExerciseRow("cardio");
-          }}
-        >
-          New Cardio Set
-        </button>
+      {workoutInfo.formCompleted && (
+        <div className={`btn-container`}>
+          <button
+            className="btn-new-set set-btns"
+            onClick={function () {
+              addExerciseRow("exercise");
+            }}
+          >
+            New Set
+          </button>
+          <button
+            className="btn-new-cardio-set set-btns"
+            onClick={function () {
+              addExerciseRow("cardio");
+            }}
+          >
+            New Cardio Set
+          </button>
 
-        <button className="btn-dupe-set set-btns" onClick={duplicateLastRow}>
-          Duplicate Set
-        </button>
-        <button
-          className="btn-delete-set set-btns"
-          onClick={() => deleteRow(workoutSets.length - 1, true)}
-        >
-          Delete Last Set
-        </button>
-        <button className="btn-download-set set-btns" onClick={generateCSV}>
-          Download CSV
-        </button>
-        <button
-          className="btn-description set-btns"
-          onClick={() => setShowDescriptions(true)}
-        >
-          Show Descriptions
-        </button>
-      </div>
+          <button className="btn-dupe-set set-btns" onClick={duplicateLastRow}>
+            Duplicate Set
+          </button>
+          <button
+            className="btn-delete-set set-btns"
+            onClick={() => deleteRow(workoutSets.length - 1, true)}
+          >
+            Delete Last Set
+          </button>
+          <button className="btn-download-set set-btns" onClick={generateCSV}>
+            Download CSV
+          </button>
+          <button
+            className="btn-description set-btns"
+            onClick={() => setShowDescriptions(true)}
+          >
+            Show Descriptions
+          </button>
+        </div>
+      )}
     </>
   );
 }

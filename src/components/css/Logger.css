@@ -1,5 +1,11 @@
-/* Existing styles */
+small {
+  font-size: xx-small ;
+}
+.m-0 {
+  margin: 0;
+}
 .logger-container {
+  margin-top: 100px;
   background-color: #082b46;
   flex-direction: column;
   color: white;
@@ -7,26 +13,27 @@
   margin: auto;
   border-radius: 30px;
   text-align: center;
-  height: 100%;
-  min-height: 80vh;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start; /* Prevents content from being vertically centered */
   align-items: center;
+  min-height: 80vh; /* Allow it to stretch as content grows */
+  overflow: hidden; /* Prevents overflow from breaking layout */
 }
 
-.logger-container {
-  justify-content: flex-start;
-}
+
 
 
 #masterList {
-  max-height: 50vh; /* Adjust this value to control the max height */
-  overflow-y: auto; /* This enables scrolling if the content exceeds the container height */
-  overflow-x: hidden;
+  flex-grow: 1; /* Allow it to expand within the parent flex container */
+  overflow-y: auto; /* Enable vertical scrolling */
+  width: 100%; /* Make sure it takes full width */
   padding: 10px;
   background-color: #082b46;
   border-radius: 10px;
+  max-height: calc(100vh - 300px); /* Set max height based on viewport minus margins */
+  box-sizing: border-box; /* Ensure padding doesn't affect dimensions */
 }
+
 
 .hidden {
   display: none;
@@ -56,7 +63,7 @@
   margin-bottom: 4%;
 }
 @media (max-width: 720px) {
-  .exercise-setr {
+  .exercise-set {
     flex-direction: column;
     width: 100%;
   }
@@ -68,7 +75,10 @@
     width: 100%;
   }
   .btn-container {
-    width: 100%;
+    flex-direction: column;
+  }
+  .logger-header {
+    font-size: smaller;
   }
 }
 @media (min-width: 721px) {
@@ -97,6 +107,8 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  text-wrap: nowrap;
+  font-size: smaller;
 }
 
 .input-container-2 {
@@ -144,7 +156,6 @@ color: white;
 }
 .btn-container {
   display: flex;
-  flex-direction: row;
   justify-content: center;
   transition: 500ms ease;
 }
@@ -157,6 +168,7 @@ color: white;
   transition: all 0.3s ease;
   border-radius: 5px;
   font-weight: 800;
+  transition: 400ms ease;
 }
 
 /* New Set Button */
@@ -168,6 +180,16 @@ color: white;
 
 .btn-new-set:hover {
   background-color: #45a049;
+}
+/* New Cardio Set Button*/
+.btn-new-cardio-set {
+  background-color: #0e523b; /* Darker Green */
+  color: white;
+  border-radius: 5px;
+}
+
+.btn-new-cardio-set:hover {
+  background-color: #07810d;
 }
 
 /* Duplicate Set Button */
@@ -348,20 +370,15 @@ color: white;
 
 .timer {
   color: white;
-  position: absolute;
-  left: 10%;
-  top: 0;
-  transition: 500ms ease;
+  display: block;  /* Change to block instead of fixed */
+  margin: 10px 0;  /* Add margin for spacing */
   opacity: 1;
+  transition: opacity 500ms ease;
 }
 
 .btn-timer {
-  position: absolute;
-  left: 10%;
-  top: 0;
-}
-
-.btn-timer {
+  display: inline-block;  /* Change to inline-block for better button styling */
+  margin-top: 10px;  /* Add margin to separate it from the timer */
   background: rgba(255, 255, 255, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.2);
   color: white;
@@ -371,10 +388,12 @@ color: white;
   letter-spacing: 1px;
   transition: all 0.3s ease;
   cursor: pointer;
+  padding: 10px 20px;  /* Ensure proper padding for the button */
+  text-align: center;  /* Center text inside the button */
 }
 
 .btn-timer:hover {
-  background: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.3);  /* Lighten background on hover */
   box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2);
   transform: translateY(-3px);
 }
@@ -382,7 +401,6 @@ color: white;
 .btn-timer:active {
   transform: translateY(1px);
 }
-
 
 .cardio-set {
   display: flex;
