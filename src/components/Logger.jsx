@@ -2,7 +2,6 @@ import "./css/Logger.css";
 import { useState, useMemo } from "react";
 import SessionTimer from "./SessionTimer";
 
-// Main component of app, handles sets.
 function Logger() {
   const getCurrentDayAndDate = useMemo(() => {
     const daysOfWeek = [
@@ -19,7 +18,7 @@ function Logger() {
     const currentDate = time.toLocaleDateString();
     return `${dayName}, ${currentDate}`;
   }, []);
-  //temporary name for the workout using today's date.
+
   const tempWorkoutName = `${getCurrentDayAndDate}'s Workout`;
   const [workoutInfo, setWorkoutInfo] = useState({
     workoutName: tempWorkoutName,
@@ -29,12 +28,10 @@ function Logger() {
     isTimed: true,
   });
 
-  // Unified list to hold both exercise and cardio sets.
   const [workoutSets, setWorkoutSets] = useState([
-    { type: "exercise", exerciseName: "", numberOfReps: "", weight: "" }, // example of exercise set
+    { type: "exercise", exerciseName: "", numberOfReps: "", weight: "" },
   ]);
 
-  //State to show and hide button descriptions
   const [showDescriptions, setShowDescriptions] = useState(false);
 
   const handleWorkoutInfoChange = (e) => {
@@ -53,7 +50,6 @@ function Logger() {
     }));
   };
 
-  // Function to add a new row (either exercise or cardio)
   const addExerciseRow = (rowType) => {
     const newRow =
       rowType === "exercise"
@@ -69,7 +65,6 @@ function Logger() {
     setWorkoutSets([...workoutSets, newRow]);
   };
 
-  // Function to duplicate the last row (whether exercise or cardio)
   const duplicateLastRow = () => {
     if (workoutSets.length > 0) {
       const lastRow = workoutSets[workoutSets.length - 1];
@@ -77,7 +72,6 @@ function Logger() {
     }
   };
 
-  // Function to delete a row by index
   const deleteRow = (index) => {
     const confirmed = window.confirm(
       "Are you sure you want to delete this row?"
@@ -91,9 +85,34 @@ function Logger() {
           updatedList.splice(index, 1);
           setWorkoutSets(updatedList);
           checkForFadeOuts();
-        }, 500); // Match the duration of the fade-out animation
+        }, 500);
       }
     }
+  };
+
+  const generateTextFile = () => {
+    let textContent = `Workout Name: ${workoutInfo.workoutName}\n`;
+    textContent += `Workout Type: ${workoutInfo.typeName}\n\n`;
+    textContent += "Type | Name | Reps/Time | Weight/Intensity\n";
+    textContent += "------------------------------------------\n";
+
+    workoutSets.forEach((set) => {
+      if (set.type === "exercise") {
+        textContent += `Exercise | ${set.exerciseName} | ${set.numberOfReps} | ${set.weight}\n`;
+      } else if (set.type === "cardio") {
+        textContent += `Cardio | ${set.cardioName} | ${set.time} | ${set.intensity}\n`;
+      }
+    });
+
+    const encodedUri = encodeURI(
+      `data:text/plain;charset=utf-8,${textContent}`
+    );
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", `${workoutInfo.workoutName}.txt`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   // Toggle timer for cardio sets
@@ -119,30 +138,60 @@ function Logger() {
     });
   };
 
-  const generateCSV = () => {
-    let csvContent = "data:text/csv;charset=utf-8,";
-    csvContent += `Workout Name,${workoutInfo.workoutName}\n`;
-    csvContent += `Workout Type,${workoutInfo.typeName}\n\n`;
-    csvContent += "Type,Name,Reps/Time,Weight/Intensity\n";
+  // New function to handle loading a workout from a text file
+  const handleLoadWorkout = (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
 
-    workoutSets.forEach((set) => {
-      if (set.type === "exercise") {
-        csvContent += `Exercise,${set.exerciseName},${set.numberOfReps},${set.weight}\n`;
-      } else if (set.type === "cardio") {
-        csvContent += `Cardio,${set.cardioName},${set.time},${set.intensity}\n`;
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const text = e.target.result;
+      const lines = text.split("\n").map((line) => line.trim());
+
+      let newWorkoutInfo = { ...workoutInfo };
+      let newWorkoutSets = [];
+
+      // Parse workout info (first two lines)
+      newWorkoutInfo.workoutName = lines[0].split(":")[1].trim();
+      newWorkoutInfo.typeName = lines[1].split(":")[1].trim();
+      
+      //Adds the checkbox to help track completed sets
+      newWorkoutInfo.isPlanned = true
+
+      // Parse workout sets
+      for (let i = 4; i < lines.length; i++) {
+        if (lines[i]) {
+          const [type, name, repsTime, weightIntensity] = lines[i]
+            .split("|")
+            .map((item) => item.trim());
+
+          if (type === "Exercise") {
+            newWorkoutSets.push({
+              type: "exercise",
+              exerciseName: name,
+              numberOfReps: repsTime,
+              weight: weightIntensity,
+            });
+          } else if (type === "Cardio") {
+            newWorkoutSets.push({
+              type: "cardio",
+              cardioName: name,
+              time: parseInt(repsTime, 10),
+              intensity: weightIntensity,
+              timerRunning: false,
+            });
+          }
+        }
       }
-    });
 
-    const encodedUri = encodeURI(csvContent);
-    const link = document.createElement("a");
-    link.setAttribute("href", encodedUri);
-    link.setAttribute("download", `${workoutInfo.workoutName}.csv`);
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+      // Update state
+      setWorkoutInfo(newWorkoutInfo);
+      setWorkoutSets(newWorkoutSets);
+    };
+
+    reader.readAsText(file);
   };
 
-  // Ensures no extra elements get the class added
   const checkForFadeOuts = () => {
     const fadeOutElements = document.getElementsByClassName("fade-out");
     Array.from(fadeOutElements).forEach((element) => {
@@ -166,6 +215,7 @@ function Logger() {
       minutes >= 10 ? minutes.toString() : "0" + minutes.toString()
     }:${seconds >= 10 ? seconds.toString() : "0" + seconds.toString()}`;
   };
+
   return (
     <>
       {workoutInfo.isTimed && workoutInfo.formCompleted && <SessionTimer />}
@@ -344,11 +394,12 @@ function Logger() {
                       </div>
                     </>
                   )}
+                  {workoutInfo.isPlanned && (<div className="checkbox-container"><label>Done?</label><input type="checkbox" /></div>)}
                   <button
                     className="btn-delete-set "
                     onClick={() => deleteRow(index)}
                   >
-                    Delete
+                    {workoutInfo.isPlanned ? "Skip" : "Delete"}
                   </button>
                 </div>
               ))}
@@ -372,14 +423,14 @@ function Logger() {
               </li>
               <li>
                 <strong className="btn-delete-set">
-                  Delete Last Set
+                  {workoutInfo.isPlanned ? "Skip" : "Delete"} Last Set
                   <br />
                 </strong>{" "}
-                Delete the last exercise set.
+                Delete the last exercise set. Says "Skip" if the workout is planned, "Delete" otherwise.
               </li>
               <li>
                 <strong className="btn-download-set">
-                  Download CSV
+                  Download To Text File
                   <br />
                 </strong>{" "}
                 Download the workout data as a CSV file.
@@ -394,8 +445,10 @@ function Logger() {
           </div>
         )}
       </div>
+
+      {/* Add file input for loading a workout from text file */}
       {workoutInfo.formCompleted && (
-        <div className={`btn-container`}>
+        <div className="btn-container">
           <button
             className="btn-new-set set-btns"
             onClick={function () {
@@ -420,10 +473,13 @@ function Logger() {
             className="btn-delete-set set-btns"
             onClick={() => deleteRow(workoutSets.length - 1, true)}
           >
-            Delete Last Set
+            {workoutInfo.isPlanned ? "Skip" : "Delete"} Last Set
           </button>
-          <button className="btn-download-set set-btns" onClick={generateCSV}>
-            Download CSV
+          <button
+            className="btn-download-set set-btns"
+            onClick={generateTextFile}
+          >
+            Download To Text File
           </button>
           <button
             className="btn-description set-btns"
@@ -431,6 +487,19 @@ function Logger() {
           >
             Show Descriptions
           </button>
+
+          <div className="upload-container">
+            <label htmlFor="file-upload" className="custom-file-upload">
+              Upload Workout
+            </label>
+            <input
+              id="file-upload"
+              type="file"
+              accept=".txt"
+              onChange={handleLoadWorkout}
+              className="btn-upload-set"
+            />
+          </div>
         </div>
       )}
     </>
