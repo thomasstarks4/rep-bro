@@ -433,7 +433,7 @@ function Logger() {
                   Download To Text File
                   <br />
                 </strong>{" "}
-                Download the workout data as a CSV file.
+                Download the workout data as a text file. Do not modify the file if you wish to upload use it again for uploading here. Create a copy of the file instead.
               </li>
             </ul>
             <button
