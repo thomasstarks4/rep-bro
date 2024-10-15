@@ -247,6 +247,51 @@ color: white;
   background-color: rgb(16, 67, 101);
 }
 
+/* Hide the default file input */
+.btn-upload-set {
+  display: none;
+}
+
+/* Style the label to look like a button */
+.custom-file-upload {
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  color: white;
+  background-color: #1c87c9; /* Button background color */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  text-align: center;
+}
+
+/* Hover effect */
+.custom-file-upload:hover {
+  background-color: #145a86; /* Darker shade for hover effect */
+}
+
+/* Add margin to match the layout of other buttons */
+.custom-file-upload {
+  margin-top: 10px;
+}
+
+.checkbox-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Centers horizontally */
+  align-items: center;     /* Centers vertically */
+  font-size: 1rem;
+}
+
+/* Optional: make the file name visible after selecting */
+.file-name {
+  font-size: 14px;
+  margin-top: 5px;
+  color: #f0f0f0;
+}
+
 .ts-form {
   display: flex;
   flex-direction: column;
