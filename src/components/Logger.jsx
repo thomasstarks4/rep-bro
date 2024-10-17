@@ -340,7 +340,7 @@ function Logger() {
                           name={`Weight${index}`}
                           id={`Weight${index}`}
                           type="text"
-                          className="exercise-input text-lg"
+                          className="exercise-input"
                           value={set.weight}
                           onChange={(e) => {
                             const updatedList = [...workoutSets];
