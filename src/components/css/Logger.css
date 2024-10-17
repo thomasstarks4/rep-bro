@@ -136,10 +136,6 @@ small {
   font-weight: bolder;
 }
 
-.text-lg {
-  font-weight: bolder !important;
-  font-size: 1.5rem !important;
-}
 
 /* Optional: Add hover and focus effects to inputs and buttons */
 .input-container input:hover,
