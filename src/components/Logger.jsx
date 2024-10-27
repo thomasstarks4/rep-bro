@@ -3,6 +3,27 @@ import { useState, useMemo } from "react";
 import SessionTimer from "./SessionTimer";
 
 function Logger() {
+  function scrollDown() {
+    // Scroll the selected div first (if it exists)
+    const selectedDiv = document.getElementById('masterList');
+    if (selectedDiv) {
+      selectedDiv.scrollTo({
+        top: selectedDiv.scrollHeight - selectedDiv.clientHeight, // Ensures it scrolls all the way down
+        behavior: 'smooth', // Makes the scrolling smooth
+      });
+    }
+  
+    // Scroll the entire document
+    window.scrollTo({
+      top: document.documentElement.scrollHeight,
+      behavior: 'smooth', // Makes the scrolling smooth
+    });
+  }
+  //To ensure it scrolls to the bottom when each set is added/removed.
+  const buttons = document.querySelectorAll('.set-btns');
+  buttons.forEach(button => {
+    button.addEventListener('click', scrollDown)
+  });
   const getCurrentDayAndDate = useMemo(() => {
     const daysOfWeek = [
       "Sunday",

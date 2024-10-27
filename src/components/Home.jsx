@@ -4,7 +4,10 @@ import headerImg2 from "../images/alora-griffiths-E3wehabi_B4-unsplash.jpg";
 import headerImg3 from "../images/alonso-reyes-0HlI76m4jxU-unsplash.jpg";
 import { Link } from "react-router-dom";
 import "./css/Home.css";
-function Home() {
+function Home(props) {
+  const byeFooter = () => {
+    props.setShowFooter(false);
+  }
   return (
     <>
       <div className="home-container">
@@ -90,7 +93,7 @@ function Home() {
         </div>
         <div className="">
           <Link className="" to={"/tracker"}>
-            <button className="gradient-button">Log a workout now!</button>
+            <button onClick={byeFooter} className="gradient-button">Log a workout now!</button>
           </Link>
           {/* Learn More page will come after login/signup page and premium features are developed. 
           This page will explain all the premium features and compare them to the basic/free features. */}

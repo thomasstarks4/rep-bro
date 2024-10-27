@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>404 Error - Page Not Found</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #111;
+            color: white;
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+        }
+
+        h1 {
+            font-size: 4rem;
+            margin-bottom: 10px;
+            opacity: 0;
+            animation: fadeIn 2s forwards;
+        }
+
+        p {
+            font-size: 1.2rem;
+            opacity: 0;
+            animation: fadeIn 2s forwards 1s;
+        }
+
+        a {
+            margin-top: 20px;
+            display: inline-block;
+            padding: 10px 20px;
+            background: #f44336;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 1.1rem;
+            opacity: 0;
+            animation: fadeIn 2s forwards 2s;
+        }
+
+        a:hover {
+            background: #e91e63;
+        }
+
+        .background {
+            position: absolute;
+            width: 100vw;
+            height: 100vh;
+            top: 0;
+            left: 0;
+            background: linear-gradient(45deg, #1e1e1e, #111);
+            clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+            z-index: -1;
+            animation: slide 5s infinite alternate;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slide {
+            0% {
+                clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+            }
+            100% {
+                clip-path: polygon(10% 0%, 90% 0%, 100% 100%, 0% 100%);
+            }
+        }
+
+        .floating {
+            position: absolute;
+            top: -50px;
+            left: 50%;
+            width: 30px;
+            height: 30px;
+            background: #f44336;
+            border-radius: 50%;
+            animation: float 4s ease-in-out infinite;
+        }
+
+        .floating:nth-child(2) {
+            animation-delay: 2s;
+        }
+
+        .floating:nth-child(3) {
+            animation-delay: 4s;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translate(-50%, 0px);
+            }
+            50% {
+                transform: translate(-50%, 20px);
+            }
+            100% {
+                transform: translate(-50%, 0px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="background"></div>
+    <div class="floating"></div>
+    <div class="floating"></div>
+    <div class="floating"></div>
+    <div class="content">
+        <h1>404 Error</h1>
+        <p>Oops! The page you're looking for doesn't exist.</p>
+        <a href="/">Go back to Home</a>
+    </div>
+
+    <script>
+        document.addEventListener('mousemove', function(e) {
+            const floatingElems = document.querySelectorAll('.floating');
+            floatingElems.forEach(elem => {
+                const x = (window.innerWidth - e.pageX) / 50;
+                const y = (window.innerHeight - e.pageY) / 50;
+                elem.style.transform = `translate(${x}px, ${y}px)`;
+            });
+        });
+    </script>
+</body>
+</html>
