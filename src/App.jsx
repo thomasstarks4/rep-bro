@@ -12,7 +12,7 @@ import "./components/css/Footer.css";
 function App() {
   const [showFooter, setShowFooter] = useState(true);
   const [footerButton, setFooterButton] = useState(true);
-  const [isBlocking, setIsBlocking] = useState(true); // Block navigation state
+  const [isBlocking] = useState(true); // Block navigation state
   const location = useLocation();
 
   const toggleFooter = () => {
