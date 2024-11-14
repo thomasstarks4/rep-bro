@@ -45,28 +45,32 @@ function Navbar() {
         {/* column 1 */}
         <div className="flex col">
           <div
-            className={`${
-              linksOpen ? "visible" : "hidden2 "
-            } flexbox-container `}
+            className={`flexbox-container ${linksOpen ? "visible" : "hidden2"}`}
           >
-            <a href="http://www.codingwithtom.com" target="_blank" rel="noreferrer">
-              <button className="flexbox-item flexbox-item-1 link gradient-button">
+            <a
+              href="http://www.codingwithtom.com"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <button className="flexbox-item link gradient-button">
                 Portfolio Page!
               </button>
             </a>
             <Link to={"/not-implemented"}>
-              <button className="flexbox-item flexbox-item-2 link not-implemented">
-              <span className="tooltip">This feature is not yet implemented. Come back later!</span>
+              <button className="flexbox-item link not-implemented">
+                <span className="tooltip">
+                  This feature is not yet implemented. Come back later!
+                </span>
                 Login/Sign Up
               </button>
             </Link>
             <Link to={"/tracker"}>
-              <button className="flexbox-item flexbox-item-3 link gradient-button">
+              <button className="flexbox-item link gradient-button">
                 Log A Workout!
               </button>
             </Link>
             <Link to={"/myrepbro-fit"}>
-              <button className="flexbox-item flexbox-item-3 link gradient-button">
+              <button className="flexbox-item link gradient-button">
                 Check out our merch!
               </button>
             </Link>

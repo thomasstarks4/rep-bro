@@ -29,19 +29,31 @@
   float: right;
 }
 .flexbox-container {
-  transition: ease 500ms;
   display: flex;
-  flex-direction: column;
-  justify-content: space-around;
+  flex-direction: row; 
+  flex-wrap: wrap; 
+  justify-content: center;
   align-items: center;
-  padding-right: 2%;
+  padding: 10px;
+  gap: 10px;
+  opacity: 1; /* Default state with full opacity */
+  transition: opacity 700ms ease, transform 700ms ease; /* Smoother transition */
+}
+
+.visible {
+  opacity: 1;
+  transform: translateY(0); /* Initial position */
+  transition: opacity 700ms ease-in, transform 700ms ease-in; /* Smooth fade-in */
 }
 .flexbox-container2 {
   flex-direction: row;
 }
 .flexbox-item {
-  width: 100%;
+  flex: 1 1 200px; /* Grow, shrink, and set a base width of 200px */
+  max-width: 200px; /* Optional max-width */
+  text-align: center;
 }
+
 
 .flexbox-item-1 {
   text-align: center;
@@ -82,8 +94,8 @@ a {
 
 .hidden2 {
   opacity: 0;
-  transform: translateY(-300px);
-  transition: ease 1000ms;
+  transform: translateY(-20px); /* Shorter translate distance for a smoother effect */
+  transition: opacity 500ms ease-out, transform 500ms ease-out 200ms; /* Delay to avoid abruptness */
 }
 
 .height-sm {
@@ -127,6 +139,14 @@ a {
     padding: 0 25px;
   }
 }
+
+@media (max-width: 768px) {
+  .flexbox-container {
+    flex-direction: column; /* Stack items vertically */
+    padding: 5px; /* Reduce padding for smaller screens */
+  }
+}
+
 
 .logo-brand {
   margin-top: 2%;
