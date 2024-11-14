@@ -65,6 +65,11 @@ function Navbar() {
                 Log A Workout!
               </button>
             </Link>
+            <Link to={"/myrepbro-fit"}>
+              <button className="flexbox-item flexbox-item-3 link gradient-button">
+                Check out our merch!
+              </button>
+            </Link>
           </div>
           <div className="nav-body"></div>
         </div>

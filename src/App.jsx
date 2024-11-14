@@ -7,6 +7,7 @@ import Logger from "./components/Logger";
 import NotImplemented from "./components/NotImplemented";
 import ErrorPage from "./components/ErrorPage";
 import Footer from "./components/Footer";
+import MyRepBroFit from "./components/MyRepBroFit";
 import "./components/css/Footer.css";
 
 function App() {
@@ -84,6 +85,7 @@ function App() {
           />
           <Route path="/tracker" element={<Logger />} />
           <Route path="/not-implemented" element={<NotImplemented />} />
+          <Route path="/myrepbro-fit" element={<MyRepBroFit />} />
           <Route path="/*" element={<ErrorPage />} />
         </Routes>
       </div>
