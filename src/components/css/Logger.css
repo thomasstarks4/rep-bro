@@ -134,6 +134,7 @@ small {
   font-size: 16px; /* Ensure consistent font size */
   text-align: center;
   font-weight: bolder;
+  align-self: center;
 }
 
 
